@@ -6,6 +6,20 @@ This project demonstrates how to build a simple open-ended chatbot using QvikCha
 
 An open-ended chat endpoint lets you have unrestricted chat with no restrictions on what topic the queries can be related to, quite similar to OpenAI's ChatGPT or Google's Gemini front-ends.
 
+### Prerequisites
+
+Begin by cloning the QvikChat Examples repository:
+
+```bash
+git clone https://github.com/oconva/qvikchat-examples.git
+```
+
+Navigate to the `simple-open-ended-chatbot` directory:
+
+```bash
+cd qvikchat-examples/examples/simple-open-ended-chatbot
+```
+
 ### Setup Environment Variables
 
 By default, QvikChat uses Google's Gemini API for text generation and embedding models. If you don't yet have a Google Gen AI API key, you can get one from [Gemini API - Get an API Key](https://ai.google.dev/gemini-api/docs/api-key).
