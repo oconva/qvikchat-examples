@@ -17,6 +17,7 @@ Below is a list of currently available examples. If you wish to add a new exampl
     This example will guide you through building a simple open-ended chatbot using QvikChat. The chatbot will be able to return an LLM generated response to any user input. Good example for getting started with QvikChat.
 
     Keywords: open ended chat, getting started, beginner
+
     QvikChat version: 1.0.7
 
 2. [Build a Chatbot on Your Own Data in under 10 minutes with History, Cache, and RAG](/examples/chatbot-on-your-own-data/README.md)
@@ -24,6 +25,7 @@ Below is a list of currently available examples. If you wish to add a new exampl
     This example will guide you through building a chatbot that can answer questions on your data, with support for continuing conversations using **chat history** and **caching responses** to frequent queries, all in under ten minutes!
 
     Keywords: RAG, chat history, response caching, intermediate
+
     QvikChat version: 1.0.7
 
 3. [Build chatbot for any website in under 15 minutes](/examples/chatbot-for-any-website/README.md)
@@ -31,6 +33,7 @@ Below is a list of currently available examples. If you wish to add a new exampl
     Learn how to quickly build a reliable and accurate chatbot that can answer questions using data from a website. This example also demonstrates how to use data loading integrations available in LangChain to load data and use it in building a chat endpoint with QvikChat.
 
     Keywords: website chatbot, data loading, langchain, intermediate
+
     QvikChat version: 1.0.7
 
 ## QvikChat
