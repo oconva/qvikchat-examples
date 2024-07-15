@@ -1,10 +1,16 @@
-# Simple Open-ended Chatbot
+# RAG Chat Webpage
 
-This project demonstrates how to build a simple open-ended chatbot using QvikChat.
+This project demonstrates how you can easily build a chatbot that answers questions using data from a webpage.
+
+This example illustrates below key points:
+
+- Building a RAG-enabled chat endpoint with QvikChat.
+- Using a custom data loader from LangChain to load data for the RAG chat endpoint.
+- Building a chatbot that answers questions using data from a webpage.
 
 ## Getting Started
 
-An open-ended chat endpoint lets you have unrestricted chat with no restrictions on what topic the queries can be related to, quite similar to OpenAI's ChatGPT or Google's Gemini front-ends.
+To get started with this example, you need to have Node.js installed on your machine. You can download and install Node.js from [here](https://nodejs.org/).
 
 ### Prerequisites
 
@@ -14,10 +20,46 @@ Begin by cloning the QvikChat Examples repository:
 git clone https://github.com/oconva/qvikchat-examples.git
 ```
 
-Navigate to the `simple-open-ended-chatbot` directory:
+Navigate to the `rag-chat-webpage` directory:
 
 ```bash
-cd qvikchat-examples/examples/simple-open-ended-chatbot
+cd qvikchat-examples/examples/rag-chat-webpage
+```
+
+### Install Dependencies
+
+Install the project dependencies using npm or pnpm:
+
+```bash
+npm install
+```
+
+Or
+
+```bash
+pnpm install
+```
+
+Since, we are loading data from a web page, we will also need to install a tool that will help us download the data from the webpage.
+
+QvikChat by default doesn't provide a data loader for web pages. So, in this example, we are going to a custom web loader from LangChain to load data from a webpage.
+
+In this example, we're going to use the [Cheerio](https://js.langchain.com/v0.2/docs/integrations/document_loaders/web_loaders/web_cheerio) web loader. Cheerio is a fast and lightweight library that can help you extract data from web pages, without the need for a full browser environment.
+
+<blockquote>
+  <strong>Note:</strong> Cheerio is not a browser, it doesn't execute JavaScript. It is a library that parses markup and provides an API for traversing/manipulating the resulting data structure. If the web page you are trying to extract data from uses JavaScript, you can check LangChain web loaders like [Puppeteer](https://js.langchain.com/v0.2/docs/integrations/document_loaders/web_loaders/web_puppeteer) or [Playwright](https://js.langchain.com/v0.2/docs/integrations/document_loaders/web_loaders/web_playwright).
+</blockquote>
+
+To install Cheerio, you can run the following command:
+
+```bash
+npm install cheerio
+```
+
+Or
+
+```bash
+pnpm add cheerio
 ```
 
 ### Setup Environment Variables
@@ -41,14 +83,39 @@ Alternatively, you can copy the `.env.tmp` file or rename it to `.env` and fill 
 
 ### Defining Chat Endpoint
 
-The chat endpoint is defined in the `src/index.ts` file. To configure an open-ended chat endpoint without any additional features, the only thing we need to provide to the `defineChatEndpoint` function is the `endpoint` name. This will be the endpoint at which we will send our queries.
+The chat endpoint is defined in the `src/index.ts` file.
+
+To configure our RAG chat endpoint, we will need:
+
+- `endpoint` where queries can be sent
+- `retriever` or `retrieverConfig`: Either an instance of a data retriever that can be used to retrieve context information (from processed data of the webpage) or we can provide the configurations for the data retriever directly to the endpoint and the endpoint will create the data retriever instance for us.
+
+We are going to:
+
+- Use the `Cheerio` web loader to load data from a webpage. For our example, we are going to use the [RAG Guide](https://qvikchat.pkural.ca/rag-guide) webpage from the QvikChat documentation.
+- Provide `retrieverConfig` when defining our RAG-enabled chat endpoint, and provide the data loaded previously as `docs`.
 
 ```typescript
-// Open-ended chat endpoint
+// configure and instantiate data loader
+const loader = new CheerioWebBaseLoader("https://qvikchat.pkural.ca/rag-guide");
+
+// load data and get docs
+const docs = await loader.load();
+
+// define RAG chat endpoint with docs
 defineChatEndpoint({
   endpoint: "chat",
+  enableRAG: true,
+  topic: "QvikChat - RAG chat endpoint",
+  retrieverConfig: {
+    docs: docs,
+    dataType: "text",
+    generateEmbeddings: true,
+  },
 });
 ```
+
+For more information on defining RAG chat endpoints, check [RAG Chat Endpoints](https://qvikchat.pkural.ca/chat-endpoints/rag-chat).
 
 As always, we setup Genkit before defining the chat endpoint and run the server after defining the chat endpoint.
 
@@ -57,17 +124,26 @@ As always, we setup Genkit before defining the chat endpoint and run the server 
 You can run the following commands to get started:
 
 ```bash
-npm install # or pnpm install
 npm run dev # or pnpm dev
 ```
 
-Once, you run the project, you can test the endpoint defined in the `src/index.ts` from terminal using command below:
+The `dev` script is set in `package.json` to run `build` and then `start` the server. When using the default configurations, the server will start on `http://localhost:3400`.
+
+Once, you run the project, you can test the endpoint defined in `src/index.ts` from terminal using command below:
 
 ```bash
-curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "What are some good places to visit in Paris, France?" } }'
+curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "What does the getDataRetriever function do?" } }'
 ```
 
 Above example points to `http://127.0.0.1:3400`. You can change this port and host depending on where you are running the server and on which port.
+
+An example of the response you receive is given below:
+
+```bash
+rag-chat-webpage % curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "What does the getDataRetriever function do?" } }'
+
+{"result":"The `getDataRetriever` function performs the following steps:\n\n1. **Loads the data** from the specified file path.\n2. **Splits the data into chunks** based on the specified chunking strategy. If no chunking strategy is specified, it tries to use an appropriate default strategy based on the data type.\n3. **Encodes the data chunks into embeddings** using the specified embedding model. If no embedding model is specified, it uses a default model.\n4. **Stores the embeddings in a vector store**. If no vector store is specified, it uses an in-memory vector store. (Note: using an in-memory vector store is not recommended for production. You can easily switch to a persistent vector store like Faiss or ChromaDB by providing an instance of that vector store in configurations.)\n5. **Creates and returns a retriever instance** that can be used to retrieve context information from the vector store. \n"}%
+```
 
 You could also use the [Genkit Developer UI](#genkit-developer-ui) to test the endpoints.
 

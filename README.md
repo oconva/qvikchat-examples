@@ -20,7 +20,15 @@ Below is a list of currently available examples. If you wish to add a new exampl
 
     QvikChat version: 1.0.7
 
-2. [Build a Chatbot on Your Own Data in under 10 minutes with History, Cache, and RAG](/examples/chatbot-on-your-own-data)
+2. [Build chatbot for any webpage in under 5 minutes](/examples/rag-chat-webpage)
+
+    Learn how to quickly build a reliable and accurate chatbot that can answer questions using data from a webpage. This example also demonstrates how to use data loaders available in LangChain to load data and use it in building a RAG-enabled chat endpoint with QvikChat.
+
+    Keywords: webpage chatbot, data loading, langchain, intermediate
+
+    QvikChat version: 1.0.9 
+
+3. [Build a Chatbot on Your Own Data in under 10 minutes with History, Cache, and RAG](/examples/chatbot-on-your-own-data)
 
     This example will guide you through building a chatbot that can answer questions on your data, with support for continuing conversations using **chat history** and **caching responses** to frequent queries, all in under ten minutes!
 
@@ -28,17 +36,11 @@ Below is a list of currently available examples. If you wish to add a new exampl
 
     QvikChat version: 1.0.7
 
-3. [Build chatbot for any website in under 15 minutes](/examples/chatbot-for-any-website)
-
-    Learn how to quickly build a reliable and accurate chatbot that can answer questions using data from a website. This example also demonstrates how to use data loading integrations available in LangChain to load data and use it in building a chat endpoint with QvikChat.
-
-    Keywords: website chatbot, data loading, langchain, intermediate
-
-    QvikChat version: 1.0.7
-
 ## QvikChat
 
-[QvikChat](https://github.com/oconva/qvikchat) is an open-source framework built on [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://github.com/langchain-ai/langchainjs) that helps you build secure, performant, and reliable chat services quickly and efficiently.
+**QvikChat** is a [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) based framework that provides you with a solid foundation to build powerful AI-powered chat service endpoints quickly and efficiently. It includes support for **multiple types of conversations (open-ended, close-ended)**, **chat history**, **response caching**, **authentication**, and **information retrieval using Retrieval Augmented Generation (RAG).**
+
+[Get Started](https://qvikchat.pkural.ca/getting-started) | [Documentation](https://qvikchat.pkural.ca)
 
 ## License
 

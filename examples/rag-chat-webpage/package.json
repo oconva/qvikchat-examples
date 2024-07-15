@@ -1,7 +1,7 @@
 {
-  "name": "simple-open-ended-chatbot",
+  "name": "rag-chat-webpage",
   "version": "1.0.0",
-  "description": "Pre-configured project to help you get started with QvikChat quickly.",
+  "description": "QvikChat example to show how you can easily build a chatbot that answers questions using data from a webpage.",
   "main": "lib/index.js",
   "scripts": {
     "start": "nodemon -x tsx lib/index.js",
@@ -9,7 +9,8 @@
     "build": "swc --strip-leading-paths --delete-dir-on-start -d lib src",
     "lint": "pnpm eslint .",
     "format": "pnpm prettier . --write",
-    "predeploy": "pnpm lint && pnpm format && pnpm build"
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-watchman",
+    "predeploy": "pnpm lint && pnpm format && pnpm build && pnpm test"
   },
   "keywords": [
     "qvikchat",
@@ -36,6 +37,8 @@
     "typescript-eslint": "^7.16.0"
   },
   "dependencies": {
-    "@oconva/qvikchat": "^1.0.9"
+    "@langchain/community": "^0.2.18",
+    "@oconva/qvikchat": "^1.0.9",
+    "cheerio": "1.0.0-rc.12"
   }
 }
